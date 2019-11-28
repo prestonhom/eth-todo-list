@@ -4,26 +4,26 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  componentWillMount(){
-    this.loadBlockchainData()
+  constructor(){
+    super()
+    this.state={
+      account:''
+    }
   }
 
-  async loadBlockchainData(){
+  async componentDidMount(){
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
-    const network = await web3.eth.net.getNetworkType()
-    console.log('network:', network)
+    window.ethereum.enable()
+    const accounts = await web3.eth.getAccounts()
+    console.log(accounts)
+    this.setState({account: accounts[0]})
   }
   render() {
-
+  const account = this.state.account
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <h1>Hello, World!</h1>
+        <p>account:{account}</p>
       </div>
     );
   }
